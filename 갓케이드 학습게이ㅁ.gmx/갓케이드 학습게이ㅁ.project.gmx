@@ -24,6 +24,7 @@
     <font>fonts\suc_fail</font>
     <font>fonts\question</font>
     <font>fonts\hwahaksik</font>
+    <font>fonts\game3result</font>
   </fonts>
   <objects name="objects">
     <object>objects\obj_redline</object>
@@ -36,10 +37,11 @@
     <object>objects\obj_suc</object>
     <object>objects\obj_fail</object>
     <object>objects\obj_question</object>
+    <object>objects\obj_game3result</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\main</room>
-    <room>rooms\room1</room>
+    <room>rooms\game3</room>
+    <room>rooms\game3_result</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

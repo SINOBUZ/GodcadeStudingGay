@@ -51,11 +51,23 @@
             <kind>1</kind>
             <string>if global.stage=1
 {
-draw_text(x,y,"질산 암모늄")
+draw_text(x,y,"플루오린화 베릴륨")
 }
 if global.stage=2
 {
-draw_text(x,y,"트라이메틸아민")
+draw_text(x,y,"삼불화 붕소")
+}
+if global.stage=3
+{
+draw_text(x,y,"클로로메테인")
+}
+if global.stage=4
+{
+draw_text(x,y,"삼염화 인")
+}
+if global.stage=5
+{
+draw_text(x,y,"황화 수소")
 }
 </string>
           </argument>

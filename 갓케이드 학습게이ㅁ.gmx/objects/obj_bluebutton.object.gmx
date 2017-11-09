@@ -66,11 +66,23 @@
             <string>// 첨자 ₀  ₁  ₂  ₃  ₄  ₅  ₆  ₇  ₈  ₉
 if global.stage=1
 {
-draw_text(x,y-10,"OH")
+draw_text(x,y-10,"사면체형")
 }
 if global.stage=2
 {
-draw_text(x,y-10,"(CH₃)₃")
+draw_text(x,y-10,"사면체형")
+}
+if global.stage=3
+{
+draw_text(x,y-10,"사면체형")
+}
+if global.stage=4
+{
+draw_text(x,y-10,"직선형")
+}
+if global.stage=5
+{
+draw_text(x,y-10,"굽은형")
 }
 </string>
           </argument>

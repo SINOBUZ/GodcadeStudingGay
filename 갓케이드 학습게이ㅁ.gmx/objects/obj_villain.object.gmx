@@ -11,30 +11,6 @@
     <event eventtype="0" enumb="0">
       <action>
         <libid>1</libid>
-        <id>611</id>
-        <kind>6</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>sp_v</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>2</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
         <id>104</id>
         <kind>0</kind>
         <userelative>-1</userelative>
@@ -49,7 +25,7 @@
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>sp_v</string>
+            <string>global.sp_v</string>
           </argument>
         </arguments>
       </action>
@@ -76,6 +52,18 @@
 instance_create(640,360,obj_fail)
 }
 if global.stage=2
+{
+instance_create(640,360,obj_fail)
+}
+if global.stage=3
+{
+instance_create(640,360,obj_suc)
+}
+if global.stage=4
+{
+instance_create(640,360,obj_fail)
+}
+if global.stage=5
 {
 instance_create(640,360,obj_suc)
 }
@@ -131,9 +119,21 @@ instance_create(640,360,obj_suc)
             <kind>1</kind>
             <string>if global.stage=1
 {
-instance_create(640,360,obj_fail)
+instance_create(640,360,obj_suc)
 }
 if global.stage=2
+{
+instance_create(640,360,obj_suc)
+}
+if global.stage=3
+{
+instance_create(640,360,obj_fail)
+}
+if global.stage=4
+{
+instance_create(640,360,obj_fail)
+}
+if global.stage=5
 {
 instance_create(640,360,obj_fail)
 }
@@ -189,9 +189,21 @@ instance_create(640,360,obj_fail)
             <kind>1</kind>
             <string>if global.stage=1
 {
-instance_create(640,360,obj_suc)
+instance_create(640,360,obj_fail)
 }
 if global.stage=2
+{
+instance_create(640,360,obj_fail)
+}
+if global.stage=3
+{
+instance_create(640,360,obj_fail)
+}
+if global.stage=4
+{
+instance_create(640,360,obj_suc)
+}
+if global.stage=5
 {
 instance_create(640,360,obj_fail)
 }
@@ -364,11 +376,23 @@ instance_create(640,360,obj_fail)
             <string>// 첨자 ₀  ₁  ₂  ₃  ₄  ₅  ₆  ₇  ₈  ₉
 if global.stage=1
 {
-draw_text(x,y-10,"NH₄")
+draw_text(x,y-10,"BeF₂")
 }
 if global.stage=2
 {
-draw_text(x,y-10,"N")
+draw_text(x,y-10,"BF₃")
+}
+if global.stage=3
+{
+draw_text(x,y-10,"CH₃Cl")
+}
+if global.stage=4
+{
+draw_text(x,y-10,"PCl₃")
+}
+if global.stage=5
+{
+draw_text(x,y-10,"H₂S")
 }
 </string>
           </argument>

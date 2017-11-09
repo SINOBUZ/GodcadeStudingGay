@@ -4,12 +4,42 @@
     <Config>Configs\Default</Config>
   </Configs>
   <NewExtensions/>
-  <sounds name="sound"/>
-  <sprites name="sprites"/>
-  <backgrounds name="background"/>
+  <sounds name="sound">
+    <sound>sound\sansungbee</sound>
+  </sounds>
+  <sprites name="sprites">
+    <sprite>sprites\spr_redbutton</sprite>
+    <sprite>sprites\spr_villain</sprite>
+    <sprite>sprites\spr_greenbutton</sprite>
+    <sprite>sprites\spr_bluebutton</sprite>
+    <sprite>sprites\spr_line</sprite>
+    <sprite>sprites\spr_layer</sprite>
+  </sprites>
+  <backgrounds name="background">
+    <background>background\playground</background>
+  </backgrounds>
   <paths name="paths"/>
+  <fonts name="fonts">
+    <font>fonts\seoulnamsan</font>
+    <font>fonts\suc_fail</font>
+    <font>fonts\question</font>
+    <font>fonts\hwahaksik</font>
+  </fonts>
+  <objects name="objects">
+    <object>objects\obj_redline</object>
+    <object>objects\obj_greenbutton</object>
+    <object>objects\obj_bluebutton</object>
+    <object>objects\obj_whiteline</object>
+    <object>objects\obj_layer</object>
+    <object>objects\obj_sys</object>
+    <object>objects\obj_villain</object>
+    <object>objects\obj_suc</object>
+    <object>objects\obj_fail</object>
+    <object>objects\obj_question</object>
+  </objects>
   <rooms name="rooms">
     <room>rooms\main</room>
+    <room>rooms\room1</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

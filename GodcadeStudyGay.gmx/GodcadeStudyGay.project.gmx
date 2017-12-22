@@ -8,6 +8,10 @@
   </NewExtensions>
   <sounds name="sound">
     <sound>sound\sansungbee</sound>
+    <sound>sound\orbital_click</sound>
+    <sound>sound\pass</sound>
+    <sound>sound\fail</sound>
+    <sound>sound\coketown</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\spr_redbutton</sprite>
@@ -21,6 +25,14 @@
     <sprite>sprites\spr_redarrow</sprite>
     <sprite>sprites\spr_eup</sprite>
     <sprite>sprites\spr_edown</sprite>
+    <sprite>sprites\spr_orbitalpass</sprite>
+    <sprite>sprites\spr_congrats</sprite>
+    <sprite>sprites\spr_orbitalfail</sprite>
+    <sprite>sprites\spr_na</sprite>
+    <sprite>sprites\spr_al</sprite>
+    <sprite>sprites\spr_b</sprite>
+    <sprite>sprites\spr_ne</sprite>
+    <sprite>sprites\spr_ar</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\playground</background>
@@ -52,6 +64,7 @@
     <object>objects\obj_fail</object>
     <object>objects\obj_question</object>
     <object>objects\obj_game3result</object>
+    <object>objects\obj_game4result</object>
     <objects name="jsc">
       <object>objects\jsc</object>
     </objects>
@@ -62,12 +75,22 @@
     <object>objects\obj_redarrow</object>
     <object>objects\obj_eup</object>
     <object>objects\obj_edown</object>
+    <object>objects\obj_orbitalpass</object>
+    <object>objects\obj_congrats</object>
+    <object>objects\obj_orbitalfail</object>
+    <object>objects\obj_na</object>
+    <object>objects\obj_al</object>
+    <object>objects\obj_b</object>
+    <object>objects\obj_ne</object>
+    <object>objects\obj_ar</object>
+    <object>objects\obj_joystick_control</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\game4</room>
     <room>rooms\intro</room>
     <room>rooms\game3</room>
     <room>rooms\game3_result</room>
+    <room>rooms\game4</room>
+    <room>rooms\room4result</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

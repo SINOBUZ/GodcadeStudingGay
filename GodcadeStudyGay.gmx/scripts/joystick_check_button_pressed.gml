@@ -1,12 +1,8 @@
-///joystick_check_button_pressed(id, numb);
+var joy_id = argument0;
+var numb = argument1;
 
-var dev_id = argument0;
-var button = argument1; 
-
-if(instance_exists(jsc)){
-    if(!jsc.keypr[button, 0] && jsc.keypr[button, 1]){
-        return true;
-    }else{
-        return false;
-    }
-}else{/*your action*/}
+if (global.prev_joystick_check_button[joy_id, numb] == 0) && (joystick_check_button(joy_id, numb)) {
+    return 1;
+} else {
+    return 0;
+}

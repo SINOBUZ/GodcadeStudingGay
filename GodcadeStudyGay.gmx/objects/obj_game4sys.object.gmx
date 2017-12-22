@@ -28,6 +28,10 @@
             <string>global.timing=0;
 global.stage=0;
 global.incorrect=0;
+global.pressed=0;
+global.success=0;
+global.failcount=0;
+global.created=0;
 </string>
           </argument>
         </arguments>
@@ -55,6 +59,96 @@ global.incorrect=0;
             <string>0</string>
           </argument>
         </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>212</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_end_sound</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>6</kind>
+            <sound>sansungbee</sound>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>211</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_sound</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>6</kind>
+            <sound>coketown</sound>
+          </argument>
+          <argument>
+            <kind>3</kind>
+            <string>1</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>203</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_kill_object</functionname>
+        <codestring></codestring>
+        <whoName>obj_orbitalpass</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>203</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_kill_object</functionname>
+        <codestring></codestring>
+        <whoName>obj_orbitalfail</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+    </event>
+    <event eventtype="2" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>222</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_next_room</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
       </action>
     </event>
     <event eventtype="2" enumb="0">
@@ -98,37 +192,5145 @@ global.timing=1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if keyboard_check_pressed(vk_enter)
+            <string>//조이스틱
+
+if global.success=1
 {
-if incorrect = 2
-{
-global.stage=global.stage+1;
-}
-else
-{
-// 여기다가 모든 인스턴스 초기화 문구 넣을것!!!!
+audio_stop_sound(fail)
+global.success=0
 }
 
-if global.stage=1
-{
+if joystick_check_button_pressed(1,10) // 여기부터 끝 판정
+ {
+  audio_play_sound(orbital_click,1,false)
+  if global.stage=1 // 스테이지 1
+  {
+  if global.timing=12
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_orbitalpass)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   }
 
-if global.timing = 1
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+
+   if global.stage=2 // 스테이지 2
+  {
+  if global.timing=14
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_orbitalpass)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   }
+
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+ 
+   if global.stage=3 // 스테이지 3
+  {
+  if global.timing=6
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_orbitalpass)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   }
+
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+   
+   if global.stage=4 // 스테이지 4
+  {
+  if global.timing=11
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_orbitalpass)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   }
+
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+   if global.stage=5 // 스테이지 5
+  {
+  if global.timing=19
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_congrats)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   alarm_set(10,300)
+   }
+
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+   
+ }   // 여기까지 끝 판정
+ 
+if joystick_check_button_released(1,2)
+       {
+       global.pressed=0
+       }
+     if joystick_check_button_released(1,5)
+       {
+       global.pressed=0
+       }
+
+if global.stage=1 // 여기부터 스테이지 1 코드
+   { 
+   if global.created=0
+   {
+   instance_create(640,360,obj_na)
+   global.created=1
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
+   
+   if global.stage=2 // 여기부터 스테이지 2 코드
+   { 
+   if global.created=1
+   {
+   with (obj_na) instance_destroy();
+   instance_create(640,360,obj_al)
+   global.created=2
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
+   
+   if global.stage=3 // 여기부터 스테이지 3 코드
+   { 
+   if global.created=2
+   {
+   with (obj_al) instance_destroy();
+   instance_create(640,360,obj_b)
+   global.created=3
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
+   
+   if global.stage=4 // 여기부터 스테이지 4 코드
+   { 
+   if global.created=3
+   {
+   with (obj_b) instance_destroy();
+   instance_create(640,360,obj_ne)
+   global.created=4
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
+   
+   if global.stage=5 // 여기부터 스테이지 5 코드
+   { 
+   if global.created=4
+   {
+   with (obj_ne) instance_destroy();
+   instance_create(640,360,obj_ar)
+   global.created=5
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if joystick_check_button_pressed(1,2)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=19;
+       }
+     if joystick_check_button_pressed(1,5)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       global.timing=19;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//키보드
+
+if global.success=1
 {
-instance_create(96,656,obj_redarrow)
-if keyboard_check_pressed(vk_up)
-{
-instance_create(80,544,obj_eup);
-}
-if keyboard_check_pressed(vk_down)
-{
-instance_create(80,544,obj_edown);
-incorrect=1;
+audio_stop_sound(fail)
+global.success=0
 }
 
-}
+if keyboard_check_pressed(vk_enter) // 여기부터 끝 판정
+ {
+  audio_play_sound(orbital_click,1,false)
+  
+  if global.stage=1 // 스테이지 1
+  {
+  if global.timing=12
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_orbitalpass)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   }
 
-}
-}
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+
+   if global.stage=2 // 스테이지 2
+  {
+  if global.timing=14
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_orbitalpass)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   }
+
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+ 
+   if global.stage=3 // 스테이지 3
+  {
+  if global.timing=6
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_orbitalpass)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   }
+
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+   
+   if global.stage=4 // 스테이지 4
+  {
+  if global.timing=11
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_orbitalpass)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   }
+
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+   if global.stage=5 // 스테이지 5
+  {
+  if global.timing=19
+  {
+  if global.incorrect = 2
+   {
+   audio_play_sound(pass,1,false)
+   global.stage=global.stage+1;
+   instance_create(640,200,obj_congrats)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.success=1
+   alarm_set(10,300)
+   }
+
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   }
+   else
+   {
+   audio_play_sound(fail,1,false)
+   instance_create(640,200,obj_orbitalfail)
+   with (obj_eup) instance_destroy();
+   with (obj_edown) instance_destroy();
+   with (obj_redarrow) instance_destroy();
+   global.timing=1
+   alarm_set(11,120)
+   global.incorrect=0
+   global.failcount=global.failcount+1
+   }
+   
+   }
+   
+ }   // 여기까지 끝 판정
+ 
+if keyboard_check_released(vk_up)
+       {
+       global.pressed=0
+       }
+     if keyboard_check_released(vk_down)
+       {
+       global.pressed=0
+       }
+
+if global.stage=1 // 여기부터 스테이지 1 코드
+   { 
+   if global.created=0
+   {
+   instance_create(640,360,obj_na)
+   global.created=1
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
+   
+   if global.stage=2 // 여기부터 스테이지 2 코드
+   { 
+   if global.created=1
+   {
+   with (obj_na) instance_destroy();
+   instance_create(640,360,obj_al)
+   global.created=2
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
+   
+   if global.stage=3 // 여기부터 스테이지 3 코드
+   { 
+   if global.created=2
+   {
+   with (obj_al) instance_destroy();
+   instance_create(640,360,obj_b)
+   global.created=3
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
+   
+   if global.stage=4 // 여기부터 스테이지 4 코드
+   { 
+   if global.created=3
+   {
+   with (obj_b) instance_destroy();
+   instance_create(640,360,obj_ne)
+   global.created=4
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
+   
+   if global.stage=5 // 여기부터 스테이지 5 코드
+   { 
+   if global.created=4
+   {
+   with (obj_ne) instance_destroy();
+   instance_create(640,360,obj_ar)
+   global.created=5
+   }
+   if global.pressed=0
+   {
+   if global.timing=1
+     {
+     instance_create(96,656,obj_redarrow)
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_eup);
+       global.timing=2;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(80,544,obj_edown);
+       global.timing=2;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+   if global.timing=2
+     {
+     // redcross 변화 없음
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_eup);
+       global.timing=3;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(112,544,obj_edown);
+       global.timing=3;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=3
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(248,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_eup);
+       global.timing=4;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(240,544,obj_edown)
+       global.timing=4;
+       global.incorrect=1;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=4
+     {
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_eup)
+       global.timing=5;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(272,544,obj_edown);
+       global.timing=5;
+       global.pressed=1;
+       }
+     }
+     }
+     
+     if global.timing=5
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_eup)
+       global.timing=6;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(392,544,obj_edown);
+       global.timing=6;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=6
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_eup)
+       global.timing=7;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(512,544,obj_edown);
+       global.timing=7;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=7
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_eup)
+       global.timing=8;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(624,544,obj_edown);
+       global.timing=8;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=8
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(408,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_eup)
+       global.timing=9;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(424,544,obj_edown);
+       global.timing=9;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=9
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(520,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_eup)
+       global.timing=10;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(544,544,obj_edown);
+       global.timing=10;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=10
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(640,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_eup)
+       global.timing=11;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(656,544,obj_edown);
+       global.timing=11;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=11
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(792,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_eup)
+       global.finished=1;
+       global.pressed=1;
+       global.timing=12;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(776,544,obj_edown);
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=12;
+       
+       }
+     }
+     }
+     
+     if global.timing=12
+     {
+
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_eup)
+       global.timing=13;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(808,544,obj_edown);
+       global.timing=13;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+
+     
+     if global.timing=13
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_eup)
+       global.timing=14;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(936,544,obj_edown);
+       global.timing=14;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+
+     if global.timing=14
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_eup)
+       global.timing=15;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1048,544,obj_edown);
+       global.timing=15;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     if global.timing=15
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_eup)
+       global.timing=16;
+       global.pressed=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1168,544,obj_edown);
+       global.timing=16;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     }
+     }
+     
+     
+     
+     if global.timing=16
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(952,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_eup)
+       global.timing=17;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(968,544,obj_edown);
+       global.timing=17;
+       global.pressed=1;
+       
+       }
+     }
+     }
+
+     if global.timing=17
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1064,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_eup)
+       global.timing=18;
+       global.pressed=1;
+       global.incorrect=1;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1080,544,obj_edown);
+       global.timing=18;
+       global.pressed=1;
+       
+       }
+     }
+     }
+     
+     if global.timing=18
+     {
+     with (obj_redarrow) instance_destroy();
+     instance_create(1176,656,obj_redarrow);
+     if global.pressed=0
+     {
+     if keyboard_check_pressed(vk_up)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_eup)
+       global.pressed=1;
+       global.incorrect=1;
+       global.timing=19;
+       }
+     if keyboard_check_pressed(vk_down)
+       {
+       audio_play_sound(orbital_click,1,false)
+       instance_create(1200,544,obj_edown);
+       global.pressed=1;
+       global.timing=19;
+       if global.incorrect=0//여기부터 성공 코드 
+       {
+       global.incorrect=2;
+       }
+       else
+       {
+       global.incorrect=1;
+       }  // 여기까지 성공 코드
+       
+       }
+     }
+     }
+     
+     
+     
+     
+   }
 </string>
           </argument>
         </arguments>
